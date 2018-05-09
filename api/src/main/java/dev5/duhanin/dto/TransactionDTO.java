@@ -17,6 +17,7 @@ public class TransactionDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
     @NotNull
+    @Min(0)
     private float summa;
     @ApiModelProperty(hidden = true, readOnly = true)
     private String title;

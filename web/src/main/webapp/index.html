@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html ng-app="myapp" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script text="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js\newsController.js"></script>
+</head>
+<body ng-controller="newsController">
+<div class="jumbotron text-center">
+    <h1>Internet Banking</h1>
+    <p>We are the best of all internet banking!</p>
+    <hr class="my-4">
+    <p class="lead row">
+        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+
+    </p>
+
+</div>
+
+<table border="1">
+    <div class="container">
+        <div class="row">
+            <div class="col" ng-repeat="news in listNews">
+                <h1>{{news.title}}</h1>
+                <pre>{{news.content}}</pre>
+            </div>
+        </div>
+    </div>
+</table>
+</body>
+</html>
