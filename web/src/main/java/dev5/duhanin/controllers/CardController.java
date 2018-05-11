@@ -55,7 +55,7 @@ public class CardController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<CardDTO> allCards() {
-        LOG.debug("start outpout all cards");
+        LOG.debug("start output all cards");
         return cardService.cardList();
     }
 }

@@ -35,7 +35,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/accounts/*/*", "/cards/*/*", "/transactions/date", "/users/?/?")
                 .access("hasRole('Customer') or hasRole('Administrator')")
                 .antMatchers("/users", "/news/newsForAll")
-                .permitAll();
+                .permitAll()
+                .and().formLogin().loginPage("/login").permitAll()
+                .and().logout();
 
         http.csrf().disable();
 
