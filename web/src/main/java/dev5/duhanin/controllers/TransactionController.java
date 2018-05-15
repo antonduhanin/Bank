@@ -35,6 +35,7 @@ public class TransactionController {
     public TransactionDTO transactionOnCard(@Valid @RequestBody TransactionDTO transactionDTO, BindingResult bindingResult) {
         LOG.debug("start transaction on card");
         TransactionDTO transaction = transactionService.transferMoneyOnCard(transactionDTO);
+        transaction.setDate(transaction.getDate());
         return transaction;
     }
 

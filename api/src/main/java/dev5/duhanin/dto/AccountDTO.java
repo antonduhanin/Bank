@@ -1,6 +1,7 @@
 package dev5.duhanin.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import org.decimal4j.util.DoubleRounder;
 
 public class AccountDTO {
     @ApiModelProperty(hidden = true, readOnly = true)
@@ -22,6 +23,7 @@ public class AccountDTO {
     }
 
     public void setBalance(float balance) {
+       balance= (float) DoubleRounder.round(balance,2);
         this.balance = balance;
     }
 

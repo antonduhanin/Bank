@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app="myapp" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Registration</title>
+    <script th:src="@{js/angular.min.js}"/>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+</head>
+<body ng-controller="registerController">
+
+<div class="container-fluid">
+    <section ng-hide="notShow" class="container">
+        <div class="container-page">
+            <div class="col-md-6">
+                <h3 class="dark-grey">Registration</h3>
+
+                <div class="form-group col-lg-12">
+                    <label>Username</label>
+                    <input ng-model="name" name="" class="form-control"  value=""/>
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Password</label>
+                    <input ng-model="pass" type="password" name="" class="form-control"  value=""/>
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Repeat Password</label>
+                    <input  ng-model="passRepeat" type="password" name="" class="form-control" value=""/>
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Email Address</label>
+                    <input ng-model="email" type="email" name="" class="form-control" value=""/>
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label>Repeat Email Address</label>
+                    <input ng-model="email" type="email" name="" class="form-control" value=""/>
+                </div>
+
+            </div>
+
+            <div class="col-md-6">
+                <h3 class="dark-grey">Terms and Conditions</h3>
+                <p>
+                    By clicking on "Register" you agree to The Company's' Terms and Conditions
+                </p>
+
+                <button type="submit" ng-click="registration()" class="btn btn-primary">Register</button>
+            </div>
+        </div>
+    </section>
+    <label>{{messageError}}</label>
+    <button type="submit"  class="btn btn-primary" href="/login">login</button>
+</div>
+
+</body>
+</html>

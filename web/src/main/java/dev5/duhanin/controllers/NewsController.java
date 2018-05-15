@@ -24,6 +24,7 @@ public class NewsController {
     public List<NewsDTO> getNewsForAll() {
         LOG.debug("start output news");
         return newsService.newsListForAll();
+
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -33,23 +34,24 @@ public class NewsController {
     }
 
 
-    @RequestMapping(value = "/recipient/{recipient}", method = RequestMethod.POST)
-    public NewsDTO createForUser(@Valid @RequestBody NewsDTO newsDTO, @PathVariable("recipient") long idUser) {
+    @RequestMapping(value = "/recipient", method = RequestMethod.POST)
+    public NewsDTO createForUser(@RequestParam("recipient") long idUser,@Valid @RequestBody NewsDTO newsDTO) {
         LOG.debug("start creating news for user");
         return newsService.publishNewsForUser(newsDTO, idUser);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(method = RequestMethod.DELETE)
     @Validated
-    public void deleteNews(@PathVariable("id") long idNews) {
+    public void deleteNews(@RequestParam("id") long idNews) {
         LOG.debug("start deleting news");
         newsService.removeNews(idNews);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public List<NewsDTO> getAllNews() {
-        LOG.debug("start output news for user");
+        LOG.debug("start output all news");
         return newsService.newsList();
     }
+
 
 }

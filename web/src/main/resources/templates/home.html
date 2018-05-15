@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html ng-app="myapp" lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Internet Banking</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <!--<script text="text/javascript" th:src="@{https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js}"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <script th:src="@{/js/FileSaver.js}"></script>
+    <link rel="stylesheet" href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css"/>
+    <script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"/>-->
+    <script th:src="@{/js/newsForUserController.js}"></script>
+    <script th:src="@{/js/jquery-1.7.1.min.js}"></script>
+    <script th:src="@{/js/valid.js}"></script>
+
+</head>
+
+<body ng-controller="newsController">
+<a href="/logout"><span class="glyphicon glyphicon-log-out"/> Sign out </a>
+<script src="js/form.js"></script>
+
+
+<div class="jumbotron text-center">
+    <h1><a href="/home">Internet Banking</a></h1>
+    <p>We are the best of all internet banking!</p>
+
+
+    <hr class="my-4"/>
+
+    <p class="lead row">
+        <a class="btn btn-primary btn-lg" ng-click="accountsFunc()" role="button">accounts</a>
+        <a class="btn btn-primary btn-lg" ng-click="cardsFunc()" role="button">cards</a>
+        <a class="btn btn-primary btn-lg" ng-click="transactionsFunc()" role="button">transactions</a>
+    </p>
+
+</div>
+
+<div class="row" ng-hide="notShowAccounts">
+    <div class="col-md-4">
+        <a class="btn btn-primary btn-lg" ng-click="createAccount()" role="button">create
+            account</a>
+    </div>
+    <div class="col-md-8">
+        <div class="form-group col-md-3">
+            <div ng-hide="notShow">
+                <select id="inputState" ng-model="myOption" class="form-control">
+                    <option ng-repeat="accounts in listAccounts">{{accounts.id}}</option>
+                </select>
+            </div>
+
+        </div>
+        <a class="btn btn-primary btn-lg" ng-click="lockAccount()" role="button">lock account</a>
+    </div>
+</div>
+
+
+<table border="1">
+    <div class="container">
+        <div class="row">
+            <div class="col" ng-repeat="news in listNews | orderBy : 'id'">
+                <h1>{{news.title}}</h1>
+                <pre>{{news.content}}</pre>
+            </div>
+        </div>
+    </div>
+</table>
+
+
+<table class="table" ng-hide="notShowAccounts">
+    <tr>
+        <th ng-repeat="t in headers">{{t}}</th>
+    </tr>
+    <tr ng-repeat="accounts in listAccounts | orderBy : '-balance'">
+        <td>{{ accounts.id }}</td>
+        <td> {{accounts.balance}} $</td>
+        <td>{{accounts.state}}</td>
+    </tr>
+</table>
+
+<table class="table" ng-hide="notShowCards">
+    <tr>
+        <th ng-repeat="t in headersCard">{{t}}</th>
+    </tr>
+    <tr ng-repeat="card in listCards | orderBy : '-balance'">
+        <td>{{ card.id }}</td>
+        <td> {{card.balance}} $</td>
+        <td>{{card.state}}</td>
+    </tr>
+</table>
+
+
+<div ng-hide="notShowTransactions">
+    <form>
+        <div class=".col-md-2">
+            <label for="exampleFormControlSelect1">Select your card</label>
+            <select ng-model="mySelectedCard" class="form-control" id="exampleFormControlSelect1">
+                <option ng-repeat="card in listCards">{{card.id}}</option>
+            </select>
+            <label for="exampleFormControlSelect1">transfer money on...</label>
+            <select ng-model="mySelectedOperation" class="form-control" id="exampleFormControlSelect2">
+                <option>Card</option>
+                <option>Account</option>
+            </select>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label for="exampleFormControlSelect1">recipient</label>
+                </div>
+                <input data-bind="value:replyNumber" min="0" onkeypress='return validate(event)' ng-model="recipient"
+                       type="number" class="form-control"/>
+            </div>
+            <div class="form-row">
+                <label for="exampleFormControlSelect1">sum</label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input data-bind="value:replyNumber" ng-model="sum" onkeypress="return validateWithComma(event) " type="number" value="0" min="0" step="0.01" data-number-to-fixed="2"
+                           data-number-stepfactor="100"
+                           class="form-control currency" id="c2"/>
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-primary btn-lg" ng-click="makeTransaction()" role="button">make transaction</a>
+        <label>{{transactionMessage}}</label>
+    </form>
+
+    <div class=".col-xs-6"></div>
+
+    <hr class="my-4"/>
+    <label for="c2">my transactions:</label>
+    <table class="table" ng-hide="notShowTransactions">
+        <tr>
+            <th ng-repeat="t in headersTransactions">{{t}}</th>
+        </tr>
+        <tr ng-repeat="transaction in listTransactions">
+            <td>{{transaction.title}}</td>
+            <td>{{transaction.nameRecipient}}</td>
+            <td>{{transaction.idCard}}</td>
+            <td>{{transaction.date}}</td>
+            <td>{{transaction.summa}} $</td>
+        </tr>
+    </table>
+    <a class="btn btn-primary btn-lg" ng-click="saveTransactions()" role="button">save</a>
+</div>
+</body>
+</html>

@@ -39,7 +39,7 @@ public class SwaggerConfig {
         final ApiInfoBuilder builder = new ApiInfoBuilder();
         builder
                 .title("Internet Banking")
-                .description("training project");
+                .description("project");
         return builder.build();
     }
 

@@ -1,6 +1,7 @@
 package dev5.duhanin.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import org.decimal4j.util.DoubleRounder;
 
 import javax.validation.constraints.NotNull;
 
@@ -25,6 +26,7 @@ public class CardDTO {
     }
 
     public void setBalance(float balance) {
+        balance = (float) DoubleRounder.round(balance,2);
         this.balance = balance;
     }
 

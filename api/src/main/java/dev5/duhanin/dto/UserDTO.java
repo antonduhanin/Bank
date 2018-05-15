@@ -13,6 +13,8 @@ public class UserDTO {
     private String password;
     @ApiModelProperty(hidden = true, readOnly = true)
     private long idRole;
+    @ApiModelProperty(hidden = true,readOnly = true)
+    private String titleRole;
 
     public long getId() {
         return id;
@@ -53,5 +55,13 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getTitleRole() {
+        return titleRole;
+    }
+
+    public void setTitleRole(String titleRole) {
+        this.titleRole = titleRole;
     }
 }

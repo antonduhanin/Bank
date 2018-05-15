@@ -14,6 +14,7 @@ import dev5.duhanin.repository.IUserDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -119,6 +120,14 @@ public class UserServiceImpl implements UserService {
         Account account = cardFind.getAccount();
         user = account.getUser();
 
+        return converterUser.userToDTO(user);
+    }
+
+    public UserDTO userByEmail(String email){
+        User user =userDAO.findByEmail(email);
+        if(user == null){
+            throw new NotFoundException("user not found un UserService");
+        }
         return converterUser.userToDTO(user);
     }
 }

@@ -23,4 +23,5 @@ public interface UserService {
 
     List<UserDTO> userList();
 
+    public UserDTO userByEmail(String email);
 }

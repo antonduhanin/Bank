@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+/*
 @Component
 public class SimpleFilter implements Filter {
 
@@ -30,3 +30,4 @@ public class SimpleFilter implements Filter {
     public void destroy() {}
 
 }
+*/

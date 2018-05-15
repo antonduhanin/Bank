@@ -1,12 +1,16 @@
 package dev5.duhanin.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -17,10 +21,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomBasicAuthenticationEntryPoint customBasicAuthenticationEntryPoint;
 
-    @Autowired
     public void globalConfig(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService);
+    }
+
+    @Configuration
+    static class MvcConfig extends WebMvcConfigurerAdapter {
+        @Override
+        public void addViewControllers(ViewControllerRegistry registry) {
+            registry.addViewController("login").setViewName("login");
+        }
     }
 
     @Override
@@ -28,16 +39,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // All requests send to the Web Server request must be authenticated
         http
                 .authorizeRequests()
-                .antMatchers("/accounts", "/accounts/?", "/cards", "/cards/?", "/news", "/news/?", "/transactions", "/users/allUsers", "/users/roles/?", "/users/?")
+                .antMatchers("/accounts", "/cards", "/cards/?", "/news", "/news/?", "/transactions", "/users/allUsers", "/users/roles/?", "/users/allUsers")
                 .hasRole("Administrator")
-                .antMatchers("/accounts/?/cards", "/cards/?/replenishment/?", "/news/recipient/?", "/transactions/account", "/transactions/card", "users/")
+                .antMatchers("/users/accounts","/accounts/?/cards", "/cards/?/replenishment/?", "/news/recipient/?", "/transactions/account", "/transactions/card", "users/","/accounts/?")
                 .hasRole("Customer")
-                .antMatchers("/accounts/*/*", "/cards/*/*", "/transactions/date", "/users/?/?")
+                .antMatchers("/accounts/*/*", "/cards/*/*", "/transactions/date", "/users/?/?","/home","/accounts/state","users/cards","users/transactions")
                 .access("hasRole('Customer') or hasRole('Administrator')")
-                .antMatchers("/users", "/news/newsForAll")
-                .permitAll()
-                .and().formLogin().loginPage("/login").permitAll()
-                .and().logout();
+                .antMatchers( "/news/newsForAll", "/resources/**","resources/static/**","/css/**","/resources/static/css/**","/index","/js/**","/resources/static/js/**","/register").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login").successForwardUrl("/home").permitAll()
+                .and().logout().logoutSuccessUrl("/index").permitAll();
 
         http.csrf().disable();
 
@@ -47,5 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-
+    /*@Bean
+    public InternalResourceViewResolver viewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/resources/templates");
+        resolver.setSuffix(".html");
+        return resolver;
+    }*/
 }

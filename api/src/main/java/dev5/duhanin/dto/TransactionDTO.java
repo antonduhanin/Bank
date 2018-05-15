@@ -1,6 +1,8 @@
 package dev5.duhanin.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import org.decimal4j.util.DoubleRounder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Min;
@@ -15,12 +17,16 @@ public class TransactionDTO {
     private long idCard;
     @ApiModelProperty(hidden = true, readOnly = true)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date date;
     @NotNull
     @Min(0)
     private float summa;
     @ApiModelProperty(hidden = true, readOnly = true)
     private String title;
+    @ApiModelProperty(hidden = true,readOnly = true)
+    private String nameRecipient;
     @NotNull(message = "error.recipientNumber.notnull")
     @Min(1)
     private long recipientNumber;
@@ -63,6 +69,7 @@ public class TransactionDTO {
     }
 
     public void setSumma(float summa) {
+        summa = (float) DoubleRounder.round(summa,2);
         this.summa = summa;
     }
 
@@ -72,5 +79,13 @@ public class TransactionDTO {
 
     public void setRecipientNumber(long recipientNumber) {
         this.recipientNumber = recipientNumber;
+    }
+
+    public String getNameRecipient() {
+        return nameRecipient;
+    }
+
+    public void setNameRecipient(String nameRecipient) {
+        this.nameRecipient = nameRecipient;
     }
 }

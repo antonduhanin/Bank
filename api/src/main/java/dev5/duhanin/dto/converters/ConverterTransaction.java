@@ -2,6 +2,7 @@ package dev5.duhanin.dto.converters;
 
 import dev5.duhanin.dto.TransactionDTO;
 import dev5.duhanin.entity.Transaction;
+import dev5.duhanin.interfaces.UserService;
 import dev5.duhanin.repository.ICardDAO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ public class ConverterTransaction {
     private ModelMapper modelMapper;
     @Autowired
     private ICardDAO cardDAO;
+    @Autowired
+    private UserService userService;
 
     public Transaction transactionToEntity(TransactionDTO transactionDTO) {
         Transaction transaction = modelMapper.map(transactionDTO, Transaction.class);
@@ -26,7 +29,7 @@ public class ConverterTransaction {
         transactionDTO.setDate(transaction.getDate());
         transactionDTO.setSumma(transaction.getSumma());
         transactionDTO.setIdCard(transaction.getCard().getId());
-        transactionDTO.setRecipientNumber(transaction.getRecipient().getId());
+        transactionDTO.setNameRecipient(transaction.getRecipient().getUser().getName());
         transactionDTO.setTitle(transaction.getTitle());
         return transactionDTO;
     }

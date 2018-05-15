@@ -8,10 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -39,16 +36,16 @@ public class CardController {
         return cardDTO;
     }
 
-    @RequestMapping(value = "/{id}/{state}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/state", method = RequestMethod.POST)
     @Validated
-    public CardDTO changeState(@PathVariable(name = "id") long idCard, @PathVariable(name = "state") String state) {
+    public CardDTO changeState(@RequestParam(name = "id") long idCard, @RequestParam(name = "state") String state) {
         LOG.debug("start finding card");
         return cardService.changeStateCard(idCard, state);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping( method = RequestMethod.DELETE)
     @Validated
-    public void remove(@PathVariable(name = "id") long idCard) {
+    public void remove(@RequestParam(name = "id") long idCard) {
         LOG.debug("start deleting card");
         cardService.removeCard(idCard);
     }

@@ -1,5 +1,9 @@
-package dev5.duhanin.security;
+package dev5.duhanin;
 
+import org.aspectj.lang.annotation.Before;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -9,12 +13,19 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.List;
-
 @EnableWebMvc
+@ComponentScan("dev5.duhanin")
 public class WebMvcConfiguration implements WebMvcConfigurer {
-
+    /*@Bean
+    public InternalResourceViewResolver viewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/resources/templates/");
+        resolver.setSuffix(".html");
+        return resolver;
+    }*/
     // ...
 
     @Override
@@ -59,7 +70,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("E:\\java\\Bank\\web\\src\\main\\webapp\\login.html");
+       registry.addViewController("/login").setViewName("login");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 

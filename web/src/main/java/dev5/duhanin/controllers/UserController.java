@@ -1,11 +1,14 @@
 package dev5.duhanin.controllers;
 
 import dev5.duhanin.dto.*;
+import dev5.duhanin.entity.User;
 import dev5.duhanin.interfaces.*;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +32,14 @@ public class UserController {
     private TransactionService transactionService;
 
 
-    @RequestMapping( method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     @Validated
     public UserDTO createUser(@RequestBody UserDTO userDTO) {
         LOG.debug("start creating card for user");
         return userService.createUser(userDTO);
     }
 
-    @RequestMapping(value = "/allUsers",method = RequestMethod.GET)
+    @RequestMapping(value = "/allUsers", method = RequestMethod.GET)
     public List<UserDTO> getAllUsers() {
         return userService.userList();
     }
@@ -70,35 +73,44 @@ public class UserController {
         return userService.userListByRole(id);
     }
 
-    @RequestMapping(path = "/{id}/accounts", method = RequestMethod.POST)
+    @RequestMapping(path = "/accounts", method = RequestMethod.POST)
     @Validated
-    public AccountDTO openAccount(@PathVariable(name = "id") long idUser) {
-        return accountService.openAccount(idUser);
+    public AccountDTO openAccount() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO user = userService.userByEmail(auth.getName());
+        return accountService.openAccount(user.getId());
     }
 
-    @RequestMapping(value = "/{id}/accounts", method = RequestMethod.GET)
+    @RequestMapping(value = "/accounts", method = RequestMethod.GET)
     @Validated
-    public List<AccountDTO> getAccountsByUser(@PathVariable("id") long idUser) {
-        UserDTO user = userService.findById(idUser);
+    public List<AccountDTO> getAccountsByUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO user = userService.userByEmail(auth.getName());
         return accountService.accountListByUser(user.getId());
     }
 
-    @RequestMapping(value = "/{id}/cards", method = RequestMethod.GET)
+    @RequestMapping(value = "/cards", method = RequestMethod.GET)
     @Validated
-    public List<CardDTO> getCardsByUser(@PathVariable("id") long idUser) {
-        return cardService.cardListByUser(idUser);
+    public List<CardDTO> getCardsByUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO user = userService.userByEmail(auth.getName());
+        return cardService.cardListByUser(user.getId());
     }
 
-    @RequestMapping(value = "/{id}/news", method = RequestMethod.GET)
+    @RequestMapping(value = "/newsForUser", method = RequestMethod.GET)
     @Validated
-    public List<NewsDTO> getNewsByUser(@PathVariable("id") long idUser) {
-        return newsService.newsListForUser(idUser);
+    public List<NewsDTO> getNewsByUser() {
+        LOG.info("start output news for user");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO user = userService.userByEmail(auth.getName());
+        return newsService.newsListForUser(user.getId());
     }
 
-    @RequestMapping(path = "/{id}/transactions", method = RequestMethod.GET)
+    @RequestMapping(path = "/transactions", method = RequestMethod.GET)
     @Validated
-    public List<TransactionDTO> transactionByUser(@PathVariable("id") long id) {
-        UserDTO user = userService.findById(id);
+    public List<TransactionDTO> transactionByUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserDTO user = userService.userByEmail(auth.getName());
         return transactionService.transactionListByUser(user.getId());
     }
 }

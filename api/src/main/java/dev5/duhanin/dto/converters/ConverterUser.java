@@ -21,6 +21,7 @@ public class ConverterUser {
         if (user.getRole() != null) {
             userDTO.setIdRole(user.getRole().getId());
         }
+        userDTO.setTitleRole(user.getRole().getName());
         return userDTO;
     }
 }
