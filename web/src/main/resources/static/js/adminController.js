@@ -135,7 +135,7 @@ myapp.controller('adminController', function ($scope, $http) {
         }
     };
     $scope.changeStateCard = function () {
-        if ($scope.mySelectedCard != undefined && $scope.mySelectedStateOfCard) {
+        if ($scope.mySelectedCard != undefined && $scope.mySelectedStateOfCard !=undefined) {
             $http.post('/cards/state'+ '?id=' + $scope.mySelectedCard + '&state=' + $scope.mySelectedStateOfCard)
                 .success(function (response) {
                     $scope.adminCards();
