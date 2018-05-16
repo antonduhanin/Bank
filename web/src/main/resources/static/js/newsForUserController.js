@@ -1,6 +1,24 @@
 var myapp = angular.module('myapp', []);
 myapp.controller('newsController', function ($scope, $http) {
 
+    $scope.createCard = function () {
+        if ($scope.accountForCard != undefined) {
+            $http.post("/accounts/cards?id=" + $scope.accountForCard)
+                .success(function (response) {
+                    $scope.cardsFunc();
+                });
+        }
+    };
+    $scope.lockCard = function () {
+
+
+        if ($scope.selectedCard != undefined && $scope.selectedStateCard != undefined) {
+            $http.post('cards/state?id=' + $scope.selectedCard + '&state=' + $scope.selectedStateCard)
+                .success(function (response) {
+                    $scope.cardsFunc();
+                });
+        }
+    };
 
     $scope.cardsFunc = function () {
         $scope.notShowCards = false;
@@ -14,8 +32,17 @@ myapp.controller('newsController', function ($scope, $http) {
         $http.get('http://localhost:8012/users/cards')
             .success(function (response) {
                 $scope.listCards = response;
+            });
+
+        $http.get('http://localhost:8012/users/accounts')
+            .success(function (response) {
+
+                $scope.headers = [
+                    'account number', 'balance', 'state'];
+                $scope.listAccounts = response;
             })
-    }
+
+    };
 
 
     $scope.accountsFunc = function () {
@@ -41,7 +68,8 @@ myapp.controller('newsController', function ($scope, $http) {
     };
 
     $scope.lockAccount = function () {
-        $http.post('http://localhost:8012/accounts/state' + '?id=' + $scope.myOption + '&state=LOCK')
+        if($scope.myOption != undefined && $scope.selectedStateAccount != undefined)
+        $http.post('http://localhost:8012/accounts/state' + '?id=' + $scope.myOption + '&state='+$scope.selectedStateAccount)
             .success(function (response) {
                 $scope.accountsFunc()
             })

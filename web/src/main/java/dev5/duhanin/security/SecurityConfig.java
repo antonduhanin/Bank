@@ -41,11 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/accounts", "/cards", "/cards/?", "/news", "/news/?", "/transactions", "/users/allUsers", "/users/roles/?", "/users/allUsers")
                 .hasRole("Administrator")
-                .antMatchers("/users/accounts","/accounts/?/cards", "/cards/?/replenishment/?", "/news/recipient/?", "/transactions/account", "/transactions/card", "users/","/accounts/?")
+                .antMatchers("/users/accounts","/accounts/?/cards", "/cards/?/replenishment/?", "/news/recipient/?", "/transactions/account", "/transactions/card", "users/","/accounts/cards","/cards/state")
                 .hasRole("Customer")
                 .antMatchers("/accounts/*/*", "/cards/*/*", "/transactions/date", "/users/?/?","/home","/accounts/state","users/cards","users/transactions")
                 .access("hasRole('Customer') or hasRole('Administrator')")
-                .antMatchers( "/news/newsForAll", "/resources/**","resources/static/**","/css/**","/resources/static/css/**","/index","/js/**","/resources/static/js/**","/register").permitAll()
+                .antMatchers( "/new","/news/newsForAll", "/resources/**","resources/static/**","/css/**","/resources/static/css/**","/index","/js/**","/resources/static/js/**","/register").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").successForwardUrl("/home").permitAll()
                 .and().logout().logoutSuccessUrl("/index").permitAll();

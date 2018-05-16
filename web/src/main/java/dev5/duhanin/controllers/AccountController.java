@@ -64,11 +64,11 @@ public class AccountController {
         return accountService.changeStateAccount(a, state);
     }
 
-    @RequestMapping(value = "/{id}/cards", method = RequestMethod.POST)
+    @RequestMapping(value = "/cards", method = RequestMethod.POST)
     @Validated
-    public CardDTO createCard(@PathVariable("id") long account) {
+    public CardDTO createCard(@RequestParam(name = "id") long id) {
         LOG.debug("start creating account");
-        return cardService.createCard(account);
+        return cardService.createCard(id);
     }
 
     @RequestMapping(value = "/{id}/cards", method = RequestMethod.GET)

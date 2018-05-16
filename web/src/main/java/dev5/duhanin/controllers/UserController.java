@@ -32,12 +32,7 @@ public class UserController {
     private TransactionService transactionService;
 
 
-    @RequestMapping(method = RequestMethod.POST)
-    @Validated
-    public UserDTO createUser(@RequestBody UserDTO userDTO) {
-        LOG.debug("start creating card for user");
-        return userService.createUser(userDTO);
-    }
+
 
     @RequestMapping(value = "/allUsers", method = RequestMethod.GET)
     public List<UserDTO> getAllUsers() {

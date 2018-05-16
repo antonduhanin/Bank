@@ -46,16 +46,18 @@
         <a class="btn btn-primary btn-lg" ng-click="createAccount()" role="button">create
             account</a>
     </div>
-    <div class="col-md-8">
-        <div class="form-group col-md-3">
-            <div ng-hide="notShow">
-                <select id="inputState" ng-model="myOption" class="form-control">
-                    <option ng-repeat="accounts in listAccounts">{{accounts.id}}</option>
-                </select>
-            </div>
+    <div class="col-md-4">
+        <label for="exampleFormControlSelect1">Select account </label>
+        <select id="inputState" ng-model="myOption" class="form-control">
+            <option ng-repeat="accounts in listAccounts">{{accounts.id}}</option>
+        </select>
+        <label for="exampleFormControlSelect1">Select state for your account</label>
+        <select ng-model="selectedStateAccount" class="form-control">
+            <option>LOCK</option>
+            <option>REQUEST UNLOCK</option>
+        </select>
 
-        </div>
-        <a class="btn btn-primary btn-lg" ng-click="lockAccount()" role="button">lock account</a>
+        <a class="btn btn-primary btn-lg" ng-click="lockAccount()" role="button">change state account</a>
     </div>
 </div>
 
@@ -83,18 +85,46 @@
     </tr>
 </table>
 
-<table class="table" ng-hide="notShowCards">
-    <tr>
-        <th ng-repeat="t in headersCard">{{t}}</th>
-    </tr>
-    <tr ng-repeat="card in listCards | orderBy : '-balance'">
-        <td>{{ card.id }}</td>
-        <td> {{card.balance}} $</td>
-        <td>{{card.state}}</td>
-    </tr>
-</table>
+<!--cards-->
+<div ng-hide="notShowCards">
 
+    <div class="row">
+        <div class="col-md-4">
 
+            <label for="exampleFormControlSelect1">Select account for your card</label>
+            <select ng-model="accountForCard" class="form-control">
+                <option ng-repeat="accounts in listAccounts">{{accounts.id}}</option>
+            </select>
+            <a class="btn btn-primary btn-lg" ng-click="createCard()" role="button">create card</a>
+        </div>
+        <div class="col-md-4">
+            <label for="exampleFormControlSelect1">Select your card</label>
+            <select ng-model="selectedCard" class="form-control">
+                <option ng-repeat="card in listCards">{{card.id}}</option>
+            </select>
+            <label for="exampleFormControlSelect1">Select state for your card</label>
+            <select ng-model="selectedStateCard" class="form-control">
+                <option>LOCK</option>
+                <option>REQUEST UNLOCK</option>
+            </select>
+            <a class="btn btn-primary btn-lg" ng-click="lockCard()" role="button">change state card</a>
+        </div>
+
+    </div>
+
+    <table class="table">
+        <tr>
+            <th ng-repeat="t in headersCard">{{t}}</th>
+        </tr>
+        <tr ng-repeat="card in listCards | orderBy : '-balance'">
+            <td>{{ card.id }}</td>
+            <td> {{card.balance}} $</td>
+            <td>{{card.state}}</td>
+        </tr>
+    </table>
+
+    <!--transactions-->
+</div>
 <div ng-hide="notShowTransactions">
     <form>
         <div class=".col-md-2">
@@ -119,7 +149,8 @@
                 <label for="exampleFormControlSelect1">sum</label>
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
-                    <input data-bind="value:replyNumber" ng-model="sum" onkeypress="return validateWithComma(event) " type="number" value="0" min="0" step="0.01" data-number-to-fixed="2"
+                    <input data-bind="value:replyNumber" ng-model="sum" onkeypress="return validateWithComma(event) "
+                           type="number" value="0" min="0" step="0.01" data-number-to-fixed="2"
                            data-number-stepfactor="100"
                            class="form-control currency" id="c2"/>
                 </div>

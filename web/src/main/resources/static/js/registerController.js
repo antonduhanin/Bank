@@ -1,23 +1,31 @@
 var myapp = angular.module('myapp', []);
 myapp.controller('registerController', function ($scope, $http) {
 
-  /*  $scope.notShow = false;
     $scope.registration = function () {
-        if ($scope.email != undefined && $scope.pass != undefined && $scope.name != undefined && $scope.name != "" && $scope.email != '' && $scope.pass != '') {
-            if ($scope.email == $scope.emailRepeat && $scope.pass == $scope.passRepeat) {
+        if ($scope.myemail != undefined && $scope.pass!= undefined && $scope.name!= undefined && $scope.nam != "" && $scope.emai != '' && $scope.pass != '') {
+            if ($scope.myemail== $scope.emailRepeat && $scope.pass == $scope.passRepeat) {
                 var data = {
                     'name': $scope.name,
-                    'email': $scope.email,
+                    'email': $scope.myemail,
                     'password': $scope.pass
                 };
-                $http.post('/users', data)
+
+
+                $http.post('/new', data)
                     .success(function (response) {
                         $scope.notShow = true;
                         $scope.messageError = 'registration success'
+                        console.log(response);
                     }).error(function (response) {
                     $scope.messageError = 'not register';
+
                 })
+            }else{
+                $scope.messageError = 'not same';
             }
+        }else {
+            $scope.messageError = 'enter the data';
+
         }
-    }*/
+    }
 });
