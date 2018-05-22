@@ -2,8 +2,8 @@ var myapp = angular.module('myapp', []);
 myapp.controller('registerController', function ($scope, $http) {
 
     $scope.registration = function () {
-        if ($scope.myemail != undefined && $scope.pass!= undefined && $scope.name!= undefined && $scope.nam != "" && $scope.emai != '' && $scope.pass != '') {
-            if ($scope.myemail== $scope.emailRepeat && $scope.pass == $scope.passRepeat) {
+        if ( validateEmail($scope.myemail) && validateName($scope.name) && $scope.myemail != undefined && $scope.pass != undefined && $scope.name != undefined && $scope.nam != "" && $scope.emai != '' && $scope.pass != '') {
+            if ($scope.myemail == $scope.emailRepeat && $scope.pass == $scope.passRepeat) {
                 var data = {
                     'name': $scope.name,
                     'email': $scope.myemail,
@@ -15,15 +15,14 @@ myapp.controller('registerController', function ($scope, $http) {
                     .success(function (response) {
                         $scope.notShow = true;
                         $scope.messageError = 'registration success'
-                        console.log(response);
                     }).error(function (response) {
                     $scope.messageError = 'not register';
 
                 })
-            }else{
+            } else {
                 $scope.messageError = 'not same';
             }
-        }else {
+        } else {
             $scope.messageError = 'enter the data';
 
         }

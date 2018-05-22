@@ -65,9 +65,6 @@ public class HomeController {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public UserDTO createUser(@RequestBody UserDTO userDTO) {
         LOG.debug("start creating  user");
-        if ( userService.userByEmail(userDTO.getEmail()) != null) {
-            throw new NotFoundException(" user exist");
-        }
         return userService.createUser(userDTO);
     }
 

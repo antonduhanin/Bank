@@ -28,9 +28,9 @@ public class CardController {
         return cardDTO;
     }
 
-    @RequestMapping(value = "/{id}/replenishment/{amount}/", method = RequestMethod.POST)
+    @RequestMapping(value = "/replenishment", method = RequestMethod.POST)
     @Validated
-    public CardDTO replenishCard(@PathVariable("id") long idCard, @PathVariable("amount") float amount) throws ServiceException {
+    public CardDTO replenishCard(@RequestParam("id") long idCard, @RequestParam("amount") float amount) throws ServiceException {
         LOG.debug("start replenish card from account");
         CardDTO cardDTO = cardService.replenishCardFromAccount(idCard, amount);
         return cardDTO;

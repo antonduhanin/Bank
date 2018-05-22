@@ -9,6 +9,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script th:src="@{js/registerController.js}"/>
+    <script th:src="@{js/valid.js}"></script>
 </head>
 <body ng-controller="registerController">
 
@@ -22,7 +23,7 @@
 
                 <div class="form-group col-lg-12">
                     <label>Username</label>
-                    <input  ng-model="name" name="" class="form-control"  value=""/>
+                    <input  ng-model="name" name="name" class="form-control"  value=""/>
                 </div>
 
                 <div class="form-group col-lg-6">
@@ -32,12 +33,12 @@
 
                 <div class="form-group col-lg-6">
                     <label>Repeat Password</label>
-                    <input  ng-model="passRepeat" type="password" name="" class="form-control" value=""/>
+                    <input  ng-model="passRepeat" type="password"  class="form-control" value=""/>
                 </div>
 
                 <div class="form-group col-lg-6">
                     <label>Email Address</label>
-                    <input  ng-model="myemail"  name="" class="form-control" value=""/>
+                    <input  ng-model="myemail"   name="email" class="form-control" value=""/>
                 </div>
 
                 <div class="form-group col-lg-6">
@@ -53,7 +54,7 @@
                     By clicking on "Register" you agree to The Company's' Terms and Conditions
                 </p>
 
-                <button type="submit" ng-click="registration()" class="btn btn-primary">Register</button>
+                <button type="submit" ng-click="registration()"  class="btn btn-primary">Register</button>
             </div>
         </div>
     </section>
